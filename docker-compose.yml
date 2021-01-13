@@ -1,0 +1,38 @@
+version: '2.4'
+services:
+  vault:
+    image: vault:latest
+    container_name: vault
+
+    hostname: vault
+    restart: always
+
+    cpu_count: 2
+    cpu_percent: 50
+    cpuset: 0,1
+
+    mem_limit: 512m
+    mem_reservation: 256m
+
+    cap_add:
+      - IPC_LOCK
+    env_file: 
+      - .env
+
+    volumes:
+      - type: bind
+        source: /Users/bi003120/vault/volumes/logs
+        target: /vault/logs
+      
+      - type: bind 
+        source: /Users/bi003120/vault/volumes/file
+        target: /vault/file
+
+      - type: bind
+        source: /Users/bi003120/vault/volumes/config
+        target: /vault/config/vault.hcl
+
+    ports:
+      - "8200:8200"
+
+    command: vault server  -config=/vault/config/vault.hcl
