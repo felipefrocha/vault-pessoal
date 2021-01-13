@@ -20,7 +20,7 @@ init:
 	@cat .tokens/init | grep Token | cut -d':' -f2 > .tokens/root
 
 unseal:
-	@(i[ ! -d "/path/to/dir" ] &&  make init) || echo "Initialized"
+	@(i[ ! -d "./volumes" ] &&  make init) || echo "Initialized"
 	echo ${UNSEAL1}
 	@docker-compose exec -T vault vault operator unseal ${UNSEAL1}
 	@docker-compose exec -T vault vault operator unseal ${UNSEAL2}
